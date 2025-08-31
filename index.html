@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>De Tramposo a Adorador - Jacob</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 10px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -10px -10px 20px -10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .toc {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            position: fixed;
+            top: 80px;
+            left: -100%;
+            width: 280px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            z-index: 150;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .toc.show {
+            left: 0;
+        }
+
+        .toc-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 140;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .toc-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .toc h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 12px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .toc a {
+            color: #495057;
+            text-decoration: none;
+            display: block;
+            padding: 5px;
+            font-size: 0.9em;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .toc a:hover, .toc a:active {
+            background: #667eea;
+            color: white;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .section h3 {
+            color: #495057;
+            margin: 15px 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        .section p {
+            margin: 12px 0;
+            text-align: justify;
+        }
+
+        .section ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .section li {
+            margin: 8px 0;
+        }
+
+        .principles {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .principle {
+            margin: 12px 0;
+            padding: 12px;
+            background: white;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .principle strong {
+            color: #28a745;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1em;
+        }
+
+        .quiz-container {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-header h2 {
+            color: #856404;
+            border: none;
+            margin-bottom: 8px;
+            font-size: 1.3em;
+        }
+
+        .question {
+            background: white;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+
+        .options {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .options li {
+            margin: 8px 0;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            font-size: 0.9em;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .options li:hover, .options li:active {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: scale(0.98);
+        }
+
+        .options li.selected {
+            background: #d1ecf1;
+            border-color: #bee5eb;
+        }
+
+        .options li.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .options li.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .answer-explanation {
+            background: #e9f7ef;
+            padding: 12px;
+            margin-top: 12px;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+            display: none;
+            font-size: 0.9em;
+        }
+
+        .answer-explanation.show {
+            display: block;
+        }
+
+        .answer-explanation h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin: 8px 5px;
+            min-height: 48px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn:hover, .btn:active {
+            background: #5a67d8;
+            transform: scale(0.98);
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover, .btn-success:active {
+            background: #218838;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .verse {
+            font-style: italic;
+            color: #6c757d;
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .mobile-spacer {
+            height: 20px;
+        }
+
+        /* Mejor experiencia para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            body {
+                font-size: 15px;
+            }
+            
+            .container {
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 15px 10px 18px 10px;
+                margin: -5px -5px 15px -5px;
+            }
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .header p {
+                font-size: 0.85em;
+            }
+            
+            .section {
+                padding: 12px;
+                margin: 15px 0;
+            }
+            
+            .section h2 {
+                font-size: 1.2em;
+            }
+            
+            .toc {
+                width: 260px;
+            }
+            
+            .options li {
+                padding: 15px 12px;
+                min-height: 55px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 8px 0;
+            }
+        }
+
+        /* Mejorar legibilidad en pantallas pequeñas */
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .header p {
+                font-size: 0.8em;
+            }
+            
+            .header div {
+                font-size: 0.85em !important;
+            }
+            
+            .header div div {
+                font-size: 0.75em !important;
+            }
+            
+            .section p {
+                font-size: 0.95em;
+            }
+            
+            .toc {
+                width: 240px;
+            }
+        }
+
+        /* Ocultar scroll horizontal no deseado */
+        html, body {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <h1>De Tramposo a Adorador</h1>
+            <p>La Transformación de Jacob en Bet-el</p>
+            <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.3);">
+                <div style="font-size: 0.95em; margin-bottom: 5px;">
+                    <strong>📖 Pastor Jorge C Navarro</strong>
+                </div>
+                <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 3px;">
+                    🏛️ Iglesia Nuevo Nacimiento
+                </div>
+                <div style="font-size: 0.8em; opacity: 0.8;">
+                    📅 Domingo, Agosto 31, 2025
+                </div>
+            </div>
+        </div>
+
+        <div class="toc-overlay" onclick="toggleMenu()"></div>
+        <div class="toc" id="tocMenu">
+            <h3>📚 Contenido</h3>
+            <ul>
+                <li><a href="#contexto" onclick="closeMenu()">🏁 El Contexto de Jacob</a></li>
+                <li><a href="#encuentro" onclick="closeMenu()">✨ El Encuentro en Bet-el</a></li>
+                <li><a href="#fundamentos" onclick="closeMenu()">🏛️ Los Cinco Fundamentos</a></li>
+                <li><a href="#despues" onclick="closeMenu()">🚶‍♂️ Vida Después de Bet-el</a></li>
+                <li><a href="#principios" onclick="closeMenu()">📖 Principios Teológicos</a></li>
+                <li><a href="#quiz" onclick="closeMenu()">🧠 Cuestionario</a></li>
+            </ul>
+        </div>
+
+        <div class="verse">
+            <strong>"Y despertó Jacob de su sueño, y dijo: Ciertamente Jehová está en este lugar, y yo no lo sabía."</strong><br>
+            - Génesis 28:16
+        </div>
+
+        <div id="contexto" class="section">
+            <h2>🏁 El Contexto de Jacob Antes de Bet-el</h2>
+            
+            <p>Jacob nació como gemelo de Esaú, y una profecía divina ya indicaba que <span class="highlight">el mayor serviría al menor</span>. Desde joven, Jacob fue conocido por su <strong>astucia</strong>, característica que lo llevó a apoderarse de la primogenitura de Esaú por un plato de lentejas.</p>
+            
+            <p>Posteriormente, con la complicidad de su madre Rebeca, Jacob <strong>engañó a su padre Isaac</strong>, quien estaba ciego, para obtener la bendición destinada a Esaú. Esto provocó el aborrecimiento y la amenaza de muerte de Esaú, forzando a Jacob a huir.</p>
+            
+            <div style="background: #fff3cd; padding: 12px; border-radius: 5px; margin: 12px 0; border-left: 4px solid #ffc107;">
+                <strong>🎯 Situación al llegar a Bet-el:</strong><br>
+                Jacob se encontraba en profunda vulnerabilidad: solo, sin riquezas, sin familia, sin ganado, y su única cabecera para dormir era una piedra. Esta condición de "perdedor" y fugitivo lo llevó a su encuentro transformador.
+            </div>
+        </div>
+
+        <div id="encuentro" class="section">
+            <h2>✨ El Encuentro en Bet-el</h2>
+            
+            <h3>El Sueño Divino (Génesis 28)</h3>
+            <p>En Bet-el, Jacob tuvo un sueño donde vio una <strong>escalera apoyada en la tierra que llegaba hasta el cielo</strong>, con ángeles de Dios subiendo y bajando por ella. Dios le hizo promesas divinas de:</p>
+            
+            <ul style="margin: 12px 0; padding-left: 25px;">
+                <li>🌍 <strong>Tierra</strong></li>
+                <li>👥 <strong>Descendencia numerosa</strong></li>
+                <li>🙏 <strong>Bendición</strong> para todas las familias</li>
+                <li>🛡️ <strong>Protección</strong> y regreso seguro</li>
+            </ul>
+
+            <h3>El Voto de Jacob</h3>
+            <p>Jacob hizo un <span class="highlight">voto condicional</span>: si Dios lo guardaba, le daba pan y vestido, y lo hacía volver en paz, entonces Jehová sería su Dios y apartaría el diezmo de todo lo que le diera.</p>
+        </div>
+
+        <div id="fundamentos" class="section">
+            <h2>🏛️ Los Cinco Fundamentos Espirituales</h2>
+            <p>La transformación de <strong>"Tramposo a Adorador"</strong> se basó en cinco fundamentos:</p>
+            
+            <div class="principles">
+                <div class="principle">
+                    <strong>1. Del Dios de mis padres… a MI Dios</strong>
+                    Jacob pasó de la fe heredada a una fe auténtica y personal, manifestada en su voto y el diezmo.
+                </div>
+                
+                <div class="principle">
+                    <strong>2. De lo mío… a lo de Dios</strong>
+                    Jacob comprendió que no era dueño, sino administrador de sus bienes, liberándose del peso de hacerlo todo por sí mismo.
+                </div>
+                
+                <div class="principle">
+                    <strong>3. De lo necesario… a lo suficiente en Dios</strong>
+                    El diezmo lo entrenó a dejar el "me falta" y descansar en la suficiencia divina.
+                </div>
+                
+                <div class="principle">
+                    <strong>4. Del sentimiento de pérdida… a la plenitud</strong>
+                    Jacob descubrió que soltar (dar) no es perder, sino experimentar la plenitud de Dios.
+                </div>
+                
+                <div class="principle">
+                    <strong>5. De vivir calculando… a vivir confiando</strong>
+                    El altar representó el fin del cálculo y el inicio de la confianza en Dios.
+                </div>
+            </div>
+        </div>
+
+        <div id="despues" class="section">
+            <h2>🚶‍♂️ La Vida Después de Bet-el</h2>
+            
+            <h3>Los Años con Labán (20 años)</h3>
+            <p>Jacob pasó veinte años con Labán, experimentando engaños repetidos. A pesar de esto, <strong>Dios lo prosperó</strong>. Durante este tiempo nacieron sus hijos, futuros patriarcas de las doce tribus de Israel.</p>
+            
+            <h3>El Regreso a Canaán</h3>
+            <p>Dios ordenó a Jacob regresar. <span class="highlight">Raquel hurtó los ídolos (terafím)</span> de su padre, posiblemente para adorarlos, como títulos de propiedad o para evitar la adivinación.</p>
+            
+            <h3>Peniel y la Reconciliación</h3>
+            <p>Jacob luchó con un varón (ángel de Dios), fue bendecido, su nombre cambió a <strong>Israel</strong> ("el que lucha con Dios"), y quedó cojeando. Luego se reconcilió con Esaú.</p>
+        </div>
+
+        <div id="principios" class="section">
+            <h2>📖 Principios Teológicos</h2>
+            
+            <p>La historia ilustra principios clave:</p>
+            
+            <ul style="padding-left: 20px; margin: 12px 0;">
+                <li>• <strong>La soberanía de Dios</strong> para cumplir Sus propósitos</li>
+                <li>• <strong>La necesidad de fe personal</strong> y auténtica</li>
+                <li>• <strong>El principio de mayordomía</strong> - todo pertenece a Dios</li>
+                <li>• <strong>Vivir por fe</strong> en lugar de astucia</li>
+                <li>• <strong>La transformación gradual</strong> que Dios obra</li>
+                <li>• <strong>El diezmo como adoración</strong>, gratitud y confianza</li>
+                <li>• <strong>Nunca es tarde</strong> para empezar con Dios</li>
+            </ul>
+        </div>
+
+        <div id="quiz" class="quiz-container">
+            <div class="quiz-header">
+                <h2>🧠 Cuestionario Interactivo</h2>
+                <p>Pon a prueba tu comprensión</p>
+            </div>
+
+            <div class="score-display" id="scoreDisplay">
+                <h3>🎉 Resultado Final</h3>
+                <p id="scoreText"></p>
+            </div>
+
+            <div id="questionsContainer"></div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="checkAnswers()">✅ Verificar Respuestas</button>
+                <button class="btn btn-success" onclick="resetQuiz()" style="display: none;" id="resetBtn">🔄 Reiniciar Quiz</button>
+            </div>
+        </div>
+
+        <div class="mobile-spacer"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                text: "¿Qué edad aproximada tenía Jacob en Bet-el y qué enseñanza se extrae?",
+                options: [
+                    "25 años, solo los jóvenes cambian profundamente.",
+                    "75 años, nunca es tarde para empezar de nuevo con Dios.",
+                    "40 años, la fe surge en la madurez adulta.",
+                    "60 años, la experiencia de vida es clave para la fe."
+                ],
+                correct: 1,
+                explanation: "Jacob tenía alrededor de 75 años. Esto enseña que nunca es tarde para empezar de nuevo con Dios y experimentar transformación, sin importar la edad."
+            },
+            {
+                number: 2,
+                text: "¿Cuáles fueron dos engaños significativos de Jacob antes de Bet-el?",
+                options: [
+                    "Engañó a Isaac para la primogenitura y vendió a Esaú como esclavo.",
+                    "Compró la primogenitura por lentejas y engañó a Isaac para obtener la bendición de Esaú.",
+                    "Robó propiedades de Labán y mintió a Rebeca sobre su destino.",
+                    "Suplantó a Esaú en batalla y engañó a Labán por ganado."
+                ],
+                correct: 1,
+                explanation: "Jacob compró la primogenitura de Esaú por un plato de lentejas y, con ayuda de Rebeca, engañó a Isaac (que estaba ciego) para recibir la bendición destinada a Esaú."
+            },
+            {
+                number: 3,
+                text: "¿Cómo era la situación de Jacob cuando llegó a Bet-el?",
+                options: [
+                    "Próspero y seguro, pero con soledad espiritual.",
+                    "Desprovisto, sin riquezas ni familia, usando una piedra como cabecera, huyendo de Esaú.",
+                    "Con bienes suficientes para el viaje, pero culposo por sus engaños.",
+                    "Con seguridad económica de su madre, pero temiendo el futuro."
+                ],
+                correct: 1,
+                explanation: "Jacob llegó en profunda vulnerabilidad: solo, sin riquezas, familia ni ganado, durmiendo con una piedra como cabecera, huyendo del aborrecimiento y amenaza de muerte de Esaú."
+            },
+            {
+                number: 4,
+                text: "¿Qué simboliza la escalera que Jacob vio en su sueño?",
+                options: [
+                    "La ruta hacia la gran riqueza material prometida.",
+                    "Un camino estratégico para vengarse de Esaú.",
+                    "La conexión cielo-tierra, presencia y accesibilidad de Dios, comunicación divina.",
+                    "Un medio para escapar rápidamente de sus enemigos."
+                ],
+                correct: 2,
+                explanation: "La escalera apoyada en la tierra llegando al cielo, con ángeles subiendo y bajando, simboliza la conexión entre cielo y tierra, representando la presencia, accesibilidad de Dios y la comunicación divina."
+            },
+            {
+                number: 5,
+                text: "¿Cuáles fueron las condiciones del voto de Jacob en Bet-el?",
+                options: [
+                    "Ser rey sobre naciones y prometió construir un gran templo.",
+                    "Protección en viaje y provisión de pan y vestido, prometiendo que Jehová sería su Dios y apartaría el diezmo.",
+                    "Prosperidad inmediata y servir a Dios solo si se cumplían sus demandas.",
+                    "Seguridad familiar y prometió no volver a engañar."
+                ],
+                correct: 1,
+                explanation: "Jacob pidió protección en su viaje y provisión de pan y vestido, prometiendo que Jehová sería su Dios y que apartaría el diezmo de todo lo que Dios le diere."
+            },
+            {
+                number: 6,
+                text: "¿Qué significó la transición 'El Dios de mis padres' a 'MI Dios'?",
+                options: [
+                    "Abandonar creencias de antepasados para una nueva religión.",
+                    "El paso de fe heredada a fe auténtica y personal, con el diezmo como confesión práctica.",
+                    "Solo una declaración verbal sin impacto real.",
+                    "Independizarse completamente de influencia divina."
+                ],
+                correct: 1,
+                explanation: "Representó el paso de una fe heredada de Abraham e Isaac a una fe auténtica y personal. El diezmo se convirtió en su primer paso de fe propia, confesión práctica de reconocer a Dios con sus bienes."
+            },
+            {
+                number: 7,
+                text: "¿Cómo cambió la perspectiva de Jacob sobre la propiedad?",
+                options: [
+                    "Se volvió más posesivo, creyendo tener derecho absoluto por su trabajo.",
+                    "Comprendió que todo era suyo por trabajar arduamente.",
+                    "Entendió que no era dueño sino administrador, liberándose del peso de hacerlo todo solo.",
+                    "Decidió distribuir equitativamente sus propiedades entre la familia."
+                ],
+                correct: 2,
+                explanation: "Jacob entendió que no era dueño sino administrador de todo lo que Dios le diera. Esta revelación fue liberadora porque le quitó el peso de 'hacer que todo funcione' solo con sus fuerzas."
+            },
+            {
+                number: 8,
+                text: "¿Qué representó el diezmo en la vida de Jacob?",
+                options: [
+                    "Una ley rígida para evitar maldición divina.",
+                    "Una forma de asegurar prosperidad material.",
+                    "Un punto de quiebre en su relación de confianza con Dios, inicio de mayordomía y gratitud.",
+                    "Una ofrenda para construir un futuro templo."
+                ],
+                correct: 2,
+                explanation: "El diezmo fue un punto de quiebre en su relación de confianza con Dios, marcando el inicio de una transformación hacia vida de mayordomía, gratitud y confianza total."
+            },
+            {
+                number: 9,
+                text: "¿Por qué Raquel hurtó los ídolos (terafím) de Labán?",
+                options: [
+                    "Para usarlos como herramientas de adivinación contra Jacob.",
+                    "Para adorarlos, como títulos de propiedad de su herencia, o evitar que su padre los consultara.",
+                    "Para venderlos y obtener riquezas.",
+                    "Era tradición llevarse dioses domésticos al casarse."
+                ],
+                correct: 1,
+                explanation: "Las razones incluyen que ella adoraba estos ídolos, los consideraba títulos de propiedad como parte de su herencia, o no quería que su padre los consultara para adivinación."
+            },
+            {
+                number: 10,
+                text: "¿Qué evento significativo ocurrió a Jacob en Peniel?",
+                options: [
+                    "Construyó un altar y recibió bendición material.",
+                    "Tuvo encuentro pacífico con Esaú, reconciliación inmediata.",
+                    "Luchó con un varón (ángel de Dios), su nombre cambió a Israel y quedó cojeando.",
+                    "Tuvo un sueño premonitorio sobre sus doce hijos."
+                ],
+                correct: 2,
+                explanation: "Jacob luchó con un varón (el ángel de Dios) hasta el alba. Su nombre cambió a Israel ('el que lucha con Dios') y quedó cojeando de su cadera debido al encuentro."
+            }
+        ];
+
+        let userAnswers = [];
+        let quizCompleted = false;
+
+        function toggleMenu() {
+            const menu = document.getElementById('tocMenu');
+            const overlay = document.querySelector('.toc-overlay');
+            menu.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('tocMenu');
+            const overlay = document.querySelector('.toc-overlay');
+            menu.classList.remove('show');
+            overlay.classList.remove('show');
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <div class="question-number">Pregunta ${question.number}</div>
+                    <div class="question-text">${question.text}</div>
+                    <ul class="options" data-question="${index}">
+                        ${question.options.map((option, optionIndex) => 
+                            `<li onclick="selectOption(${index}, ${optionIndex})" data-option="${optionIndex}">
+                                <strong>${String.fromCharCode(65 + optionIndex)})</strong> ${option}
+                            </li>`
+                        ).join('')}
+                    </ul>
+                    <div class="answer-explanation" id="explanation-${index}">
+                        <h4>✅ Respuesta Correcta: ${String.fromCharCode(65 + question.correct)}</h4>
+                        <p>${question.explanation}</p>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            if (quizCompleted) return;
+
+            const optionsList = document.querySelector(`[data-question="${questionIndex}"]`);
+            const options = optionsList.querySelectorAll('li');
+            
+            // Feedback táctil
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            
+            options.forEach(option => option.classList.remove('selected'));
+            options[optionIndex].classList.add('selected');
+            
+            userAnswers[questionIndex] = optionIndex;
+        }
+
+        function checkAnswers() {
+            if (userAnswers.length !== questions.length) {
+                alert('Por favor responde todas las preguntas antes de verificar.');
+                return;
+            }
+
+            quizCompleted = true;
+            let correct = 0;
+
+            questions.forEach((question, index) => {
+                const optionsList = document.querySelector(`[data-question="${index}"]`);
+                const options = optionsList.querySelectorAll('li');
+                const explanation = document.getElementById(`explanation-${index}`);
+                
+                options.forEach((option, optionIndex) => {
+                    option.style.cursor = 'default';
+                    if (optionIndex === question.correct) {
+                        option.classList.add('correct');
+                    } else if (optionIndex === userAnswers[index]) {
+                        option.classList.add('incorrect');
+                    }
+                });
+
+                if (userAnswers[index] === question.correct) {
+                    correct++;
+                }
+
+                explanation.classList.add('show');
+            });
+
+            const percentage = Math.round((correct / questions.length) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const scoreText = document.getElementById('scoreText');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = `¡Excelente! ${correct}/${questions.length} (${percentage}%) - Dominas muy bien el tema.`;
+            } else if (percentage >= 70) {
+                message = `¡Muy bien! ${correct}/${questions.length} (${percentage}%) - Buen conocimiento de la historia.`;
+            } else if (percentage >= 50) {
+                message = `Bien. ${correct}/${questions.length} (${percentage}%) - Te recomendamos repasar algunos puntos.`;
+            } else {
+                message = `${correct}/${questions.length} (${percentage}%) - Sería bueno estudiar más el material.`;
+            }
+
+            scoreText.textContent = message;
+            scoreDisplay.style.display = 'block';
+            resetBtn.style.display = 'inline-block';
+
+            scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            userAnswers = [];
+            quizCompleted = false;
+            
+            document.getElementById('scoreDisplay').style.display = 'none';
+            document.getElementById('resetBtn').style.display = 'none';
+            
+            const explanations = document.querySelectorAll('.answer-explanation');
+            explanations.forEach(exp => exp.classList.remove('show'));
+            
+            const options = document.querySelectorAll('.options li');
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+                option.style.cursor = 'pointer';
+            });
+
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Smooth scrolling para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Cerrar menú al tocar fuera
+        document.addEventListener('touchstart', function(e) {
+            const menu = document.getElementById('tocMenu');
+            const menuButton = document.querySelector('.menu-toggle');
+            
+            if (!menu.contains(e.target) && !menuButton.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        // Inicializar quiz
+        renderQuestions();
+    </script>
+</body>
+</html>
